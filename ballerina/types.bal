@@ -183,3 +183,33 @@ type OllamaFunction record {
 };
 
 const FUNCTION = "function";
+
+// Configs obtained from: https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings
+# Represents the advanced parameters for generating embeddings with Ollama.
+# These parameters control the behaviour of the Ollama `/api/embed` endpoint.
+@display {label: "Ollama Embedding Model Parameters"}
+public type OllamaEmbeddingModelParameters record {|
+    # The number of dimensions for the output embedding.
+    # When not specified, the model's default dimensionality is used.
+    # Only effective for models that support shortening the embedding dimension.
+    @display {label: "Dimensions"}
+    int dimensions?;
+
+    # Truncates the end of each input to fit within the model's context length.
+    # When set to `false`, the request fails with an error if the context length is exceeded.
+    @display {label: "Truncate"}
+    boolean truncate = true;
+
+    # Controls how long the model stays loaded in memory following the request (e.g., `"5m"`).
+    @display {label: "Keep Alive"}
+    string keepAlive?;
+|};
+
+// https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings
+type OllamaEmbeddingResponse record {
+    string model;
+    float[][] embeddings;
+    int total_duration?;
+    int load_duration?;
+    int prompt_eval_count?;
+};
